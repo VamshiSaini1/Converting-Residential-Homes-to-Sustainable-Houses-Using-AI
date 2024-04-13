@@ -1,0 +1,850 @@
+---
+title: "Team 5 Project Report"
+authors: Vamshi Saini, Mostafa Etebarzadeh, Hardik Mahto, Swarna Doppa
+date: "2024-04-12"
+output:
+  word_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Team 5 Project members:
+
+Vamshi Saini
+Mostafa Etebarzadeh
+Hardik Mahto
+Swarna Doppa
+
+## Links to the application and Github Repository
+
+[Click Here to access the shiny application](https://greenexpectationsteam5.shinyapps.io/greenexpectationssustainabilityapp/)
+[Github Repository](https://github.com/VamshiSaini1/Advanced_R_Project)
+
+## Directions to access data files, code files and app files in Github:
+
+1. The Data extracted from glossary site before any data analysis, manipulation is labelled as "Sustainability_Features_Data.xlsx"
+2. The random houses data generated file before any additional work is labbeled as "Sustainability_Houses_Dataset.xlsx"
+3. The Features data set with weights is labelled as "Sustainability_Features_Dataset_With_Weights.xlsx"
+4. The Houses data set with sustainability scores and individual sub category scores is labelled as "Sustainability_Houses_Dataset_With_Scores.xlsx"
+5. The Houses data set after normalization and making it as labelled data by classifying houses is labelled as "Sustainability_Houses_Classification_Dataset.xlsx"
+6. The Data Analysis file is labelled as "Team5_Sustainable_Houses_main.R"
+7. The Model Building file is labelled as "SustainableHousesClassification.R"
+8. The Shiny App files are labelled as "HomeApp.R", "ClassificationApp.R", "Recommendations_app.R"
+
+
+## Motivation and Overview of the project:
+
+Our team chose the project "Convert Residential Houses into Sustainable Homes Using AI" driven bya strong desire to utilize our expertise in a practical and impactful manner. The opportunity to develop an application that not only showcases our technical skills but also contributes significantly towards sustainability greatly enhanced our interest in this project. This alignment of our project’s objectives with our professional skills and personal commitments to environmental stewardship made it an ideal choice. We are pleased to report that we successfully achieved our goals, resulting in the creation of a functional and environmentally beneficial application.
+
+## Related Work: 
+
+In our preliminary research, we recognized that data is increasingly being described as the new fuel for innovation, particularly in its capacity to drive societal betterment. Among the various project options available to us, we selected "Convert Residential Houses into Sustainable Homes Using AI" due to its significant potential to contribute something both useful and meaningful. This project allowed us to directly apply data analytics and AI methodologies to real-world challenges, thereby harnessing data's transformative power to foster sustainable living environments.
+
+## Initial questions: 
+
+The only question we had was "How to help users by guiding them to make sustainble houses".
+
+Initially, our concept was to develop a chatbot using the R programming language, aimed at guiding users on how to make their houses sustainable. However, as the project progressed, we encountered a significant challenge: the lack of comprehensive data suitable for building an effective chatbot, particularly within the confines of R and its associated frameworks. Although we could have opted to utilize different programming languages and frameworks, such a course would not have aligned with our academic curriculum's requirements.
+
+After careful consideration, we decided to pivot our approach. Instead of pursuing the less feasible chatbot, we developed a modern application that still embodies our original goal of guiding users towards sustainability. This new application is not only user-friendly but also highly effective in providing tailored recommendations and classifying the sustainability of users' homes. This approach allowed us to overcome the data limitations while still delivering a practical and impactful solution.
+
+## Data:
+
+At the outset of our project, we faced a significant challenge due to the absence of relevant data. The available datasets over the internet were either incomplete or irrelevant, which severely hampered our initial progress. To address this issue, we consulted the project administrator for guidance. We were directed to a glossary site, which, although not originally intended for our purposes, provided a foundational dataset.
+
+Leveraging this dataset, we embarked on a rigorous process of data enhancement. We modified the existing data to better suit our project needs and augmented it with additional information to increase its relevance and utility. Furthermore, to enrich our dataset and enhance the robustness of our application, we employed statistical techniques to generate synthetic data. These efforts culminated in the development of a comprehensive and effective application, tailored to guide users in enhancing the sustainability of their homes.
+
+## Exploratory Data Analysis: 
+
+# Step 1: Gathering the data
+In our initial attempt to automate the data collection process, we explored web scraping. However, the glossary site, being constructed with PHP and lacking a structured layout, posed significant challenges to our web scraping efforts. As a result, we shifted to a manual approach to ensure the accuracy and relevancy of the data collected.
+
+This manual data scraping involved meticulously reviewing each item listed on the glossary site to identify features that were relevant to our project's objectives. After a thorough examination, we selected 100 key features, noting their descriptions and associated links. We manually entered this information into an Excel spreadsheet, which allowed us to organize the data systematically and enhance its accessibility for further processing. This meticulous process ensured that we captured all necessary data to effectively support the development of our application.
+
+# Step 2: Making the Data Meaningful
+Upon successfully collecting the necessary feature names, descriptions, and corresponding links from the glossary site, our next step was to further refine and structure the data to make it actionable for our application. To achieve this, we organized the features into main categories and subcategories, which allowed us to systematically approach the data analysis and application development.
+
+Additionally, we classified each feature under four key aspects: "Priority," "Implementation," "Cost Factor," and "Usage." This categorization was essential for tailoring recommendations based on user needs and for developing functionality within the application that could dynamically adjust based on user inputs and preferences.
+
+To ensure that our classifications were robust and informative, we conducted extensive research, consulting multiple articles, websites, and videos. This research was crucial in providing a solid foundation for our data classifications, enabling us to add meaningful and actionable insights to each feature. This structured and enhanced dataset formed the backbone of our application, ensuring that it not only met but exceeded the practical requirements of guiding users towards sustainable living.
+
+# Step 3: Calculating Weights
+After categorizing and classifying each feature based on the key aspects of "Priority," "Implementation," "Cost Factor," and "Usage," we proceeded to assign weights to each feature. This weighting system was designed to differentiate between features that had a greater impact on sustainable living and those that were less influential.
+
+By calculating these weights, we were able to prioritize and distinguish between high-performing sustainable features and those of lesser importance. This systematic approach not only enhanced the quality of our data but also laid the groundwork for a dynamic recommendation system within our application.
+
+The weight assigned to each feature plays a crucial role in our recommendation algorithm. When users input their preferences or details about their homes, the application utilizes these weights to recommend features that align closely with their specific needs and priorities. Features with higher weights are indicative of their greater potential to make a substantial impact on improving the sustainability of a user's home.
+
+In essence, this weighting system empowers users with personalized recommendations, guiding them towards making informed decisions that can significantly enhance the sustainability and efficiency of their homes. Below is the code implemented to calculate weights: 
+
+# Step 4: Generating Random houses dataset.
+Given our ultimate goal of providing users with personalized recommendations and enabling them to classify the sustainability of their homes, it was imperative for us to have a robust dataset suitable for classification purposes. However, due to the limitations in available resources and data, we devised an innovative approach to generate a synthetic dataset.
+
+We employed a simple sampling function to create a dataset consisting of 10,000 houses, mirroring the characteristics of real-world residences. Each house record within this dataset was assigned binary values (yes or no) for all 100 features we had previously extracted and classified.
+
+This resulted in a dataset comprising 10,000 rows, with each row representing a unique house and each column corresponding to one of the 100 features. The binary values within this dataset effectively capture the presence or absence of each feature in the respective houses, thereby providing a solid foundation for our classification model.
+
+While this synthetic dataset may not replicate the complexities of real-world data entirely, i serves as a valuable tool for training our classification algorithms and generating meaningful insights. This approach enabled us to proceed with the development of our recommendation system and classification feature, ensuring that users receive accurate and actionable guidance based on their specific circumstances and needs.
+
+# Step 5: Connecting both data sets and improving houses dataset.
+Building upon the previously calculated weights for each feature, we leveraged this information to compute a sustainability score for each house in our synthetic dataset. This score served as a comprehensive metric, capturing the overall sustainability level of each residence based on its feature set.
+
+Additionally, we calculated individual scores for each sub-category, focusing on those aspects that were deemed highly essential in promoting sustainability. This granular approach allowed us to evaluate the performance of each house across key sustainability dimensions, providing valuable insights into areas of strength and potential improvement.
+
+# NOTE: 
+During the data analysis and manipulation phases, we implemented several methods and optimizations to enhance the quality and reliability of our dataset, as well as to ensure the smooth functioning of our codebase.
+
+One of the initial steps involved refining the dataset by replacing spaces in column names with underscores. This adjustment was crucial for maintaining compatibility with the dynamic nature of our code, ensuring seamless data processing and manipulation throughout the development process.
+
+Additionally, we incorporated robust error-handling mechanisms to manage file processing effectively. By implementing error-handling routines, we were able to address potential issues and exceptions that could arise during data import, export, or transformation. This proactive approach not only enhanced the reliability of our data pipelines but also minimized disruptions and streamlined the overall workflow.
+
+### The Below code block performs the above mentioned 5 steps to ensure proper data manipulation, data analysis took place
+
+```{r}
+#install.packages("openxlsx")
+library(openxlsx)
+library(tidyverse)
+library(dplyr)
+library(purrr)
+set.seed(42)
+
+# ***** RANDOM HOUSES DATA GENERATION *****
+num_of_houses <- 10000
+sustainability_features_df <- read.xlsx("Sustainability_Features_Data.xlsx", sheet=1)
+sustainability_features <- sustainability_features_df$Feature
+
+sustainable_houses <- data.frame(HouseID = paste("House", 1:num_of_houses, sep = "_"))
+
+# Generating random "yes" or "no" for each feature
+for(feature in sustainability_features) {
+  sustainable_houses[[feature]] <- sample(c("yes", "no"), num_of_houses, replace = TRUE)
+}
+
+# Writing the data frame to an Excel file
+# write.xlsx(sustainable_houses, "Sustainability_Houses_Dataset.xlsx")
+
+# ***** CALCULATING WEIGHTS *****
+
+sustainability_features_df <- read.xlsx("Sustainability_Features_Data.xlsx", sheet=1)
+
+# Setting weights for different values of the columns
+priority_weights <- list("Low"=0, "Medium"=0.1111, "High"=0.2222, "Very High"=0.3333)
+implementation_weights <- list("Easy"=0.3333, "Moderate"=0.2222, "Hard"=0.1111, "Very Hard"=0)
+cost_factor_weights <- list("Low"=0.3333, "Moderate"=0.2222, "Expensive"=0.1111, "Very Expensive"=0)
+
+# Helper function to check if there are any other values in the data set apart from req values and assigning 0 as the weight if any.
+safe_weight_lookup <- function(weight_list, key) {
+  if (is.na(key) || !key %in% names(weight_list)) {
+    return(0)
+  } else {
+    return(weight_list[[key]])
+  }
+}
+
+# Creating a new column and storing the weights in that column
+sustainability_features_df <- sustainability_features_df %>%
+  rowwise() %>%
+  mutate(Calc_weights = safe_weight_lookup(priority_weights, Priority) +
+           safe_weight_lookup(implementation_weights, Implementation) +
+           safe_weight_lookup(cost_factor_weights, Cost_Factor)) %>%
+  ungroup()
+
+# write.xlsx(sustainability_features_df, "Sustainability_Features_Dataset_With_Weights.xlsx")
+
+# Creating a features list to connect the both data sets.
+feature_weights <- setNames(sustainability_features_df$Calc_weights, sustainability_features_df$Feature)
+
+feature_subcategory <- setNames(sustainability_features_df$Sub_Category, sustainability_features_df$Feature)
+
+#  Connecting both data sets with "weightage" as main factor 
+sustainability_houses_df <- read.xlsx("Sustainability_Houses_Dataset.xlsx")
+
+# Replacing dots with spaces in column names for better usage
+corrected_colnames <- gsub("\\.", " ", colnames(sustainability_houses_df))
+colnames(sustainability_houses_df) <- corrected_colnames
+
+# Convert "yes" / "no" in sustainability_houses_df to 1 / 0
+sustainability_houses_df[, -1] <- lapply(sustainability_houses_df[, -1], function(x) ifelse(tolower(x) == "yes", 1, 0))
+
+# Ensuring feature_weights only includes keys that exist in sustainability_houses_df
+feature_weights_corrected <- feature_weights[names(feature_weights) %in% names(sustainability_houses_df)]
+
+# Calculating Total Sustainability_score
+sustainability_houses_df <- sustainability_houses_df %>%
+  rowwise() %>%
+  mutate(Sustainability_score = sum(c_across(names(feature_weights_corrected)) * feature_weights_corrected)) %>%
+  ungroup()
+
+# Calculating Individual Sub category scores for each house
+calculate_category_weights <- function(df, subcat, weights) {
+  categories <- unique(unlist(subcat))
+  subcat_matrix <- matrix(0, nrow = nrow(df), ncol = length(categories), dimnames = list(NULL, categories))
+  
+  for (feature in names(subcat)) {
+    if (feature %in% colnames(df)) {
+      category_name <- subcat[[feature]]
+      subcat_matrix[, category_name] <- subcat_matrix[, category_name] + df[[feature]] * weights[feature]
+    }
+  }
+  
+  return(as.data.frame(subcat_matrix))
+}
+
+# Calculate subcategory weights
+subcategory_weights_df <- calculate_category_weights(sustainability_houses_df, feature_subcategory, feature_weights_corrected)
+
+# Add the subcategory weights as new columns to the original data
+data_with_category_weights <- cbind(sustainability_houses_df, subcategory_weights_df)
+# write.xlsx(data_with_category_weights, "Sustainability_Houses_Dataset_With_Scores.xlsx")
+```
+
+# NOTE: In the above code snippet, the write functions are commented to avoid data overriding.
+
+## Data Analysis and Model Building:
+
+# TASK 1: Building the recommendations app: 
+With the prepared dataset in place, we proceeded to develop the recommendation feature of our application. To achieve this, we implemented a basic decision tree structure utilizing if-else conditional logic. This approach enabled us to create a straightforward yet effective recommendation system tailored to users' preferences and needs.
+
+Upon capturing user inputs, the application searches for matching data within the dataset. If a direct match is found, the corresponding features are presented to the user as recommendations. This direct matching mechanism ensures that users receive personalized and relevant suggestions based on their specific inputs.
+
+In cases where an exact match is not found, we dynamically modify the search parameters to closely align with the user's preferences. This adaptive approach ensures that the recommendation engine remains flexible and responsive to varying user inputs, enhancing the accuracy and relevance of the suggested features.
+
+In scenarios where no features closely match the user's preferences, we resort to providing recommendations based on the most sustainable features within the selected category. This fallback mechanism leverages the previously calculated weights to prioritize and recommend features that have the highest potential for sustainability, ensuring that users always receive valuable guidance, even when their preferences do not directly match the available data.
+
+In summary, the implementation of this recommendation system, built upon a decision tree structure and if-else conditional logic, enables our application to deliver personalized and relevant sustainability recommendations to users. This adaptive and dynamic approach ensures that users receive actionable insights and guidance tailored to their specific circumstances and preferences, thereby facilitating informed decision-making and promoting sustainable living practices.
+
+### Shiny app code for building the recommendations app
+```{r}
+library(shiny)
+library(openxlsx)
+library(tidyverse)
+library(dplyr)
+library(purrr)
+library(utils)
+
+# Define UI for application
+ui <- fluidPage(
+  
+  # Additional CSS styles for color theme and sidebar
+  tags$style(HTML("
+    body {
+      background-color: #f0f9f0; /* Light green background */
+      font-family: Arial, sans-serif; /* Modern font */
+    }
+    
+    .title-panel {
+      text-align: center;
+      color: #008000; /* Dark green text color */
+      margin-bottom: 20px; /* Add some space below title */
+    }
+    
+    .sidebar {
+      background-color: #ffffff; /* White sidebar background */
+      border-right: 1px solid #ddd; /* Light gray border */
+      box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Shadow effect */
+      padding: 20px; /* Add some padding */
+    }
+    
+    .sidebar .form-group {
+      margin-bottom: 20px; /* Add space between inputs */
+    }
+    
+    .sidebar select {
+      width: 100%; /* Make select inputs full width */
+      border: 1px solid #ccc; /* Light gray border */
+      border-radius: 5px; /* Rounded corners */
+      padding: 8px; /* Add padding */
+      font-size: 16px; /* Increase font size */
+    }
+    
+    .sidebar .help-block {
+      color: #666666; /* Gray color for help text */
+      font-size: 14px; /* Decrease font size for help text */
+    }
+    
+    .sidebar .action-button {
+      width: 100%; /* Make button full width */
+      background-color: #008000; /* Dark green button background */
+      color: #ffffff; /* White button text color */
+      border: none; /* Remove button border */
+      border-radius: 5px; /* Rounded corners */
+      padding: 10px; /* Add padding */
+      font-size: 16px; /* Increase font size */
+      cursor: pointer; /* Add pointer cursor */
+    }
+    
+    .sidebar .action-button:hover {
+      background-color: #006400; /* Dark green background on hover */
+    }
+    
+    .recommendation-card {
+      margin: 10px;
+      padding: 20px;
+      border: 1px solid #ccc; /* Light gray border */
+      border-radius: 5px; /* Rounded corners */
+      background-color: #ffffff; /* White background */
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1); /* Shadow effect */
+    }
+    
+    .recommendation-card h3 {
+      color: #008000; /* Dark green heading color */
+    }
+    
+    .recommendation-card p {
+      color: #333333; /* Dark gray paragraph color */
+    }
+    
+    .recommendation-card a {
+      color: #006400; /* Dark green link color */
+    }
+  ")),
+  
+  # Application title
+  div(class = "title-panel",
+      titlePanel("Sustainable House Feature Recommendations", windowTitle = "Sustainable House Features")
+  ),
+  
+  # Main layout divided into two parts: sidebarPanel and mainPanel
+  sidebarLayout(
+    
+    # Sidebar panel for inputs
+    sidebarPanel(
+      class = "sidebar",
+      
+      # Question 1: Select the category
+      selectInput("category", "Select the Category:",
+                  choices = c("Chemicals", "Construction", "Electricity", "Safety", "Smart Features")),
+      
+      # Question 2: Select the sub category
+      uiOutput("sub_category"),
+      
+      # Question 3: Select the cost factor
+      selectInput("Cost_Factor", "Select the Cost Rating:",
+                  choices = c(1, 2, 3)),
+      helpText("The higher the value, the more expensive and better sustainable features are recommended."),
+      
+      # Submit button
+      actionButton("submit", "Submit", class = "action-button")
+    ),
+    
+    # Main panel for displaying output
+    mainPanel(
+      # Output for displaying concatenated responses
+      uiOutput("feature_recommendations")
+    )
+  )
+)
+
+# Define server logic
+server <- function(input, output) {
+  
+  # Reactive expression for generating options for sub category based on selected category
+  output$sub_category <- renderUI({
+    category <- input$category
+    choices <- switch(category,
+                      "Chemicals" = c("Hygiene", "Power generation"),
+                      "Construction" = c("Structure", "Water management", "Insulation", "Hygiene", "Airflow", "Gardening", "Power management", "Structure", "Sustainable material", "Waste management"),
+                      "Electricity" = c("Power management", "Temperature Management", "Power generation"),
+                      "Safety" = c("Filtration", "Flood control"),
+                      "Smart Features" = c("Connectivity")
+    )
+    
+    selectInput("sub_category", "Select the Sub Category:",
+                choices = choices)
+  })
+  
+  # Read Excel data outside observeEvent
+  sustainability_features_final_data <- tryCatch({
+    read.xlsx("Sustainability_Features_Dataset_With_Weights.xlsx", sheet=1)
+  }, error = function(e) {
+    NULL
+  })
+  
+  # Reactive expression to store and concatenate user responses
+  observeEvent(input$submit, {
+    if(is.null(sustainability_features_final_data)) {
+      output$feature_recommendations <- renderUI({
+        HTML("Error: Unable to read the data file.")
+      })
+      return()
+    }
+    
+    recommendation_function <- function(userCategory, userSubCategory, userCostFactorVal){
+      filteredCostFactor <- c()
+      filteredImplementation <- c()
+      filteredPriority <- c("Very High", "High")
+      
+      if (userCostFactorVal == 1) {
+        filteredCostFactor <- c("Low", "Moderate")
+        filteredImplementation <- c("Easy", "Moderate")
+      } else if (userCostFactorVal == 2) {
+        filteredCostFactor <- c("Moderate", "Expensive")
+        filteredImplementation <- c("Easy", "Moderate", "Hard")
+      } else if (userCostFactorVal == 3) {
+        filteredCostFactor <- c("Expensive", "Very Expensive")
+        filteredImplementation <- c("Easy", "Moderate", "Hard", "Very Hard")
+      }
+      
+      result <- NULL  # Initialize result to NULL
+      for (priority in c("Very High", "High", "Moderate", "Low")) {
+        result <- sustainability_features_final_data %>%
+          filter(Category == userCategory &
+                   Sub_Category == userSubCategory &
+                   Cost_Factor %in% filteredCostFactor &
+                   Priority == priority &  # Set priority to current level
+                   Implementation %in% filteredImplementation)
+        if (nrow(result) > 0) {
+          break  # If non-empty result is found, exit the loop
+        }
+        else {
+          # Filter the top 5 weighted features based on Calc_weights
+          result <- sustainability_features_final_data %>%
+            filter(Category == userCategory &
+                     Sub_Category == userSubCategory) %>%
+            arrange(desc(Calc_weights)) %>%
+            slice_head(n = 5)
+        }
+      }
+      return(result)
+    }
+    
+    features_output <- recommendation_function(input$category, input$sub_category, input$Cost_Factor)
+    if (nrow(features_output) == 0) {
+      output_to_display <- winDialog(type = "message", message = "Sorry, we could not find the matching recommendations, please try using different filters")
+    } else {
+      output_to_display <- lapply(1:nrow(features_output), function(i) {
+        div(
+          class = "recommendation-card", # Add class to card
+          h3(features_output$Feature[i]),
+          p(features_output$Description[i]),
+          p(HTML(paste("<b>Cost: </b>", features_output$Cost_Factor[i]))),
+          p(HTML(paste("<b>Implementation Difficulty: </b>", features_output$Implementation[i]))),
+          HTML(paste("Click <a href='", features_output$link[i], "' target='_blank'>here</a> to find out more"))
+        )
+      })
+    }
+    
+    output$feature_recommendations <- renderUI({
+      output_to_display
+    })
+    
+  })
+}
+
+# Run the application
+shinyApp(ui = ui, server = server)
+```
+
+# TASK 2: Building the Classifications app:
+While existing smart houses data was available, its direct utilization for building the classification app posed challenges due to the large number of features involved. Asking users to input all features for classification would not be a user-friendly approach and could potentially lead to information overload.
+
+Given the categorized nature of our features and the availability of overall and individual sustainability scores, we devised a more user-centric approach. Users are now prompted to classify their houses based on the category they select, allowing them to focus on specific aspects of sustainability that matter most to them. This approach ensures clarity and enables users to make informed decisions by evaluating all sustainability dimensions comprehensively.
+
+To implement this classification feature, we first normalized the sustainability score column in the dataset to label whether a house is sustainable or not overall. Subsequently, we developed separate classification models for each selected sub-category. The datasets were split into training and test sets to train and evaluate these models effectively.
+
+Once the models were trained, tested, and evaluated, we stored them as .rds files. This file format allows us to easily integrate the trained models into our Shiny application, connecting the user interface (UI) with the classification models seamlessly.
+
+### The Below code block is used for normalization and model building, training, testing and evaluation.
+```{r}
+library(openxlsx)
+library(tidyverse)
+library(dplyr)
+library(purrr)
+
+dataSet <- read.xlsx("Sustainability_Houses_Dataset_With_Scores.xlsx")
+dataSet <- head(dataSet,1000)
+
+# Replacing dots with spaces in column names for better usage
+corrected_colnames <- gsub("\\.", "_", colnames(dataSet))
+colnames(dataSet) <- corrected_colnames
+
+# Normalizing the sustainability score
+normalize_column <- function(column) {
+  (column - min(column)) / (max(column) - min(column))
+}
+
+# Normalizing the Sustainability_score
+normalize_min_max <- function(x) {
+  return((x - min(x)) / (max(x) - min(x)))
+}
+dataSet$Normalized_scores <- normalize_min_max(dataSet$Sustainability_score)
+
+# Overall Sustainability Score Classification (Not using right now)
+classification_results <- sapply(dataSet$Normalized_scores, function(x) {
+  if (x >= 0.5) {
+    return(1)
+  } else {
+    return(0)
+  }
+})
+dataSet$Classification <- classification_results
+# write.xlsx(dataSet, "Sustainability_Houses_Classification_Dataset.xlsx")
+
+# Loading the dataset to avoid overriding issues
+dataSet <- read.xlsx("Sustainability_Houses_Classification_Dataset.xlsx")
+
+
+# MODEL DEVELOPMENT
+library(caTools)
+print(sum(dataSet$Classification == 1))
+table(dataSet$Classification)
+spl = sample.split(dataSet$HouseID, SplitRatio = 0.75)
+Sustainability_Train = subset(dataSet, spl==TRUE)
+Sustainability_Test = subset(dataSet, spl==FALSE)
+
+# Building a Logistic Regression Model for CONSTRUCTION category
+Construction_Model <- glm(Classification ~ 
+                            Structure + 
+                            Insulation +
+                            Gardening +
+                            Hygiene +
+                            Power_management +
+                            Sustainable_material +
+                            Water_management+ 
+                            Waste_management+ 
+                            Airflow, data = Sustainability_Train, family = "binomial")
+summary(Construction_Model)
+
+# Training
+Construction_Model_PredictTrain = predict(Construction_Model, type="response")
+summary(Construction_Model_PredictTrain)
+tapply(Construction_Model_PredictTrain, Sustainability_Train$Classification, mean)
+table(Sustainability_Train$Classification, Construction_Model_PredictTrain > 0.5)
+
+# Testing
+Construction_Model_PredictTest = predict(Construction_Model, type="response", newdata=Sustainability_Test)
+table(Sustainability_Test$Classification, Construction_Model_PredictTest > 0.5)
+
+# Building a Logistic Regression Model for Electricity category
+Electricity_Model <- glm(Classification ~
+                           Power_management +
+                           Temperature_Management +
+                           Power_generation, data = Sustainability_Train, family = "binomial")
+summary(Electricity_Model)
+
+# Training
+Electricity_Model_PredictTrain = predict(Electricity_Model, type="response")
+summary(Electricity_Model_PredictTrain)
+tapply(Electricity_Model_PredictTrain, Sustainability_Train$Classification, mean)
+table(Sustainability_Train$Classification, Electricity_Model_PredictTrain > 0.5)
+
+# Testing
+Electricity_Model_PredictTest = predict(Electricity_Model, type="response", newdata=Sustainability_Test)
+table(Sustainability_Test$Classification, Electricity_Model_PredictTest > 0.5)
+
+# Building a Logistic Regression Model for SmartFeatures category
+SmartFeatures_Model <- glm(Classification ~ Connectivity, data = Sustainability_Train, family = "binomial")
+summary(SmartFeatures_Model)
+
+# Training
+SmartFeatures_Model_PredictTrain = predict(SmartFeatures_Model, type="response")
+summary(SmartFeatures_Model_PredictTrain)
+tapply(SmartFeatures_Model_PredictTrain, Sustainability_Train$Classification, mean)
+table(Sustainability_Train$Classification, SmartFeatures_Model_PredictTrain > 0.5)
+
+# Testing
+SmartFeatures_Model_PredictTest = predict(SmartFeatures_Model, type="response", newdata=Sustainability_Test)
+table(Sustainability_Test$Classification, SmartFeatures_Model_PredictTest > 0.5)
+
+#  Construction Model Evaluation
+library(ROCR)
+
+ROCR_Construction_pred = prediction(Construction_Model_PredictTrain, Sustainability_Train$Classification)
+ROC_Construction_Curve = performance(ROCR_Construction_pred, "tpr", "fpr")
+plot(ROC_Construction_Curve, xlim = c(0, 1))
+plot(ROC_Construction_Curve, colorize=TRUE, print.cutoffs.at=seq(0,1,1), text.adj=c(-0.2,0.7))
+
+#  Electricity Model Evaluation
+ROCR_Electricity_pred = prediction(Electricity_Model_PredictTrain, Sustainability_Train$Classification)
+ROC_Electricity_Curve = performance(ROCR_Electricity_pred, "tpr", "fpr")
+plot(ROC_Electricity_Curve, xlim = c(0, 1))
+plot(ROC_Electricity_Curve, colorize=TRUE, print.cutoffs.at=seq(0,1,1), text.adj=c(-0.2,0.7))
+
+#  Smart Features Model Evaluation
+ROCR_SmartFeatures_pred = prediction(SmartFeatures_Model_PredictTrain, Sustainability_Train$Classification)
+ROC_SmartFeatures_Curve = performance(ROCR_SmartFeatures_pred, "tpr", "fpr")
+plot(ROC_SmartFeatures_Curve, xlim = c(0, 1))
+plot(ROC_SmartFeatures_Curve, colorize=TRUE, print.cutoffs.at=seq(0,1,1), text.adj=c(-0.2,0.7))
+
+# NOTE: Based on the results of all models evaluation, we have decided to classify the house as sustainable if probability is greater than 0.25
+
+# Saving the models so that they can be loaded in shiny app
+# saveRDS(Construction_Model, "Construction_Model.rds")
+# saveRDS(Electricity_Model, "Electricity_Model.rds")
+# saveRDS(SmartFeatures_Model, "SmartFeatures_Model.rds")
+```
+# NOTE: In the above code snippet, the write functions and saveRDS functions are commented to avoid data overriding.
+
+### Shiny app code for building the Classifications app
+```{r}
+library(shiny)
+library(dplyr)
+library(tidyr)
+library(openxlsx)  
+
+# Define UI
+ui <- fluidPage(
+  
+  tags$head(
+    tags$style(HTML("
+    
+    body {
+      background-color: #f0f9f0; /* Light green background */
+      font-family: Arial, sans-serif; /* Modern font */
+    }
+    
+    .title-panel {
+      text-align: center;
+      color: #008000; /* Dark green text color */
+      margin-bottom: 20px; /* Add some space below title */
+    }
+    
+    .sidebar {
+      background-color: #ffffff; /* White sidebar background */
+      border-right: 1px solid #ddd; /* Light gray border */
+      box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Shadow effect */
+      padding: 20px; /* Add some padding */
+    }
+    
+    .sidebar .form-group {
+      margin-bottom: 20px; /* Add space between inputs */
+    }
+    
+    .sidebar select {
+      width: 100%; /* Make select inputs full width */
+      border: 1px solid #ccc; /* Light gray border */
+      border-radius: 5px; /* Rounded corners */
+      padding: 8px; /* Add padding */
+      font-size: 16px; /* Increase font size */
+    }
+    
+    .sidebar .help-block {
+      color: #666666; /* Gray color for help text */
+      font-size: 14px; /* Decrease font size for help text */
+    }
+    
+    .sidebar .action-button {
+      width: 100%; /* Make button full width */
+      background-color: #008000; /* Dark green button background */
+      color: #ffffff; /* White button text color */
+      border: none; /* Remove button border */
+      border-radius: 5px; /* Rounded corners */
+      padding: 10px; /* Add padding */
+      font-size: 16px; /* Increase font size */
+      cursor: pointer; /* Add pointer cursor */
+    }
+    
+    .sidebar .action-button:hover {
+      background-color: #006400; /* Dark green background on hover */
+    }
+    
+    .checkbox { margin-right: 10px; }
+    .checkbox label { width: 50%; } /* Set the label width for better alignment */
+    .checkbox-inline { width: 30%; display: inline-block; margin-bottom: 10px; margin-top: 10px; } /* Adjust width and margin */
+    .checkbox-container { padding-top: 20px; } /* Add space before displaying checkboxes */
+  "))
+  ),
+  
+  # Application title
+  div(class = "title-panel",
+      titlePanel("Welcome to Green House Sustainability Classification", windowTitle = "Sustainable House Classification")
+  ),
+  
+  sidebarLayout(
+    sidebarPanel(
+      class = "sidebar",
+      selectInput("options", "Select the Aspect of Sustainability:", 
+                  choices = c("Choose..." = "", "Construction" = "Construction", "Electricity" = "Electricity", "Smart Features" = "Smart Features")),
+      actionButton("submit", "Submit", class = "action-button"),
+      br(), # Line break for better separation
+      hr(), # Horizontal rule for visual separation
+      #p("Select the category and features of your house to predict its sustainability."),
+      HTML(paste0("Select the category and features of the house to predict its sustainability. Please navigate to <a href='https://greenifyai.com/article2_1.php' target='_blank'>Green Expectations</a> to find out more about features."))
+    ),
+    mainPanel(
+      h4("Prediction Result:"),
+      verbatimTextOutput("predictionResult"),
+      hr()
+    )
+  ),
+  
+  div(class = "checkbox-container", uiOutput("checkboxes"))  # Add space before displaying checkboxes
+)
+
+# Define server logic
+server <- function(input, output, session) {
+  
+  # Load the dataset
+  dataset <- reactive({
+    req(file.exists("Sustainability_Features_Dataset_With_Weights.xlsx"))
+    read.xlsx("Sustainability_Features_Dataset_With_Weights.xlsx")
+  })
+  
+  # Dynamically create checkbox options based on selected category
+  output$checkboxes <- renderUI({
+    req(input$options != "")  # Require a selection to proceed
+    choices <- dataset() %>% 
+      filter(Category == input$options) %>%
+      pull(Feature)
+    checkboxGroupInput("checkboxes", "Select features (multiple allowed):", choices = choices, inline = TRUE)
+  })
+  
+  observeEvent(input$submit, {
+    req(input$options, input$checkboxes)  # Ensure inputs are selected
+    
+    # Load the selected model based on category
+    model_path <- switch(input$options,
+                         "Construction" = "Construction_Model.rds",
+                         "Electricity" = "Electricity_Model.rds",
+                         "Smart Features" = "SmartFeatures_Model.rds")
+    
+    if (!file.exists(model_path)) {
+      output$predictionResult <- renderText("Model file is missing.")
+      return()
+    }
+    
+    selected_model <- readRDS(model_path)
+    
+    # Prepare data for prediction
+    data_for_prediction <- dataset() %>%
+      filter(Feature %in% input$checkboxes) %>%
+      group_by(Sub_Category) %>%
+      summarise(Total_Score = sum(Calc_weights, na.rm = TRUE)) %>%
+      spread(key = Sub_Category, value = Total_Score, fill = 0)
+    
+    # Ensure all expected columns are present for the model
+    expected_columns <- names(selected_model$coefficients)[-1]
+    missing_columns <- setdiff(expected_columns, names(data_for_prediction))
+    data_for_prediction[missing_columns] <- 0
+    
+    # Replace spaces with underscores in column names
+    names(data_for_prediction) <- gsub(" ", "_", names(data_for_prediction))
+    
+    # Prediction
+    prediction <- predict(selected_model, newdata = data_for_prediction, type = "response")
+    
+    # Output the prediction
+    output$predictionResult <- renderText({
+      if (prediction > 0.2) "The house is classified as: Sustainable" else "The house is classified as: Not Sustainable"
+    })
+  })
+}
+
+# Run the application
+shinyApp(ui = ui, server = server)
+```
+
+## The characteristics of the developed logistic regression models are:
+![Construction Model Summary](C:/Users/vamsh/OneDrive/Documents/1.1 Project/ClassificationApp/Evaluation Screenshots/one.png)
+![Construction Model Efficiency](C:/Users/vamsh/OneDrive/Documents/1.1 Project/ClassificationApp/Evaluation Screenshots/two.png)
+![Electricity Model Summary](C:/Users/vamsh/OneDrive/Documents/1.1 Project/ClassificationApp/Evaluation Screenshots/three.png)
+![Electricity Model Efficiency](C:/Users/vamsh/OneDrive/Documents/1.1 Project/ClassificationApp/Evaluation Screenshots/four.png)
+![Smart Features Model Summary](C:/Users/vamsh/OneDrive/Documents/1.1 Project/ClassificationApp/Evaluation Screenshots/five.png)
+![Smart Features Model Efficiency](C:/Users/vamsh/OneDrive/Documents/1.1 Project/ClassificationApp/Evaluation Screenshots/six.png)
+
+## Shiny app code for integrating both Recommendations App and Classifications App in home page:
+```{r}
+library(shiny)
+library(bslib)
+
+ui <- fluidPage(
+  titlePanel("Green Expectations", windowTitle = "Green Expectations"),
+  theme = bs_theme(bootswatch = "minty"), # Using a Bootstrap theme for better visual appearance
+  
+  tags$head(
+    tags$style(HTML("
+      body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        color: #333;
+      }
+      .header {
+        background-color: #4CAF50;
+        color: #fff;
+        padding: 20px;
+        text-align: center;
+        font-size: 24px;
+      }
+      .content {
+        padding: 20px;
+        background-color: #f0f9f0;
+        line-height: 1.6;
+      }
+      .btn-container {
+        display: flex;
+        justify-content: center;
+        align-items: center; /* Center the content vertically */
+        height: 250px; /* Height of the background */
+        width: 100%; /* Make background full width */
+        margin-top: 40px;
+        gap: 30%;
+        background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('https://ecoreports.com.au/wp-content/uploads/2021/09/pic-eco-friendly-home.jpg') no-repeat center center fixed; 
+        background-size: cover;
+        padding: 20px;
+      }
+      .btn {
+        padding: 10px 20px;
+        font-size: 18px;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+        text-decoration: none; /* remove underline from links */
+      }
+      .recommend-btn {
+        background-color: #4CAF50;
+      }
+      .classify-btn {
+        background-color: #2196F3;
+      }
+    "))
+  ),
+  
+  div(class = "header", "Welcome to Green Expectations"),
+  div(class = "content",
+      h1("Why Sustainability is Important"),
+      p("Sustainability is crucial for ensuring that we have and will continue to have, the water, materials, and resources to protect human health and our environment. Sustainable homes play a pivotal role in this by minimizing waste, reducing consumption, and preserving nature. They not only contribute to a healthier planet but also offer economic benefits by lowering energy costs and creating more durable and long-lasting living environments."),
+      p("By focusing on sustainable development, we're not just investing in our planet's future but also in our own. The concept of sustainability introduces innovative technologies and practices that can make our lives more efficient, reduce our carbon footprint, and promote a balance with nature. Embracing sustainability in our homes is a step towards a more responsible and environmentally conscious way of living."),
+      div(class = "btn-container",
+          a(href = "https://greenexpectationsteam5.shinyapps.io/greenexpectationsteam5/", class = "btn recommend-btn", "Get Sustainability Recommendations"),
+          a(href = "https://greenexpectationsteam5.shinyapps.io/greenexpectationsteam5_classification/", class = "btn classify-btn", "Classify Your House")
+      )
+  )
+)
+
+server <- function(input, output, session) {}
+
+shinyApp(ui = ui, server = server)
+
+```
+
+## Deploying Applications: 
+Upon completing the development and local testing phases, we proceeded to deploy the applications using the Shiny.io framework. Shiny.io offers a robust and reliable platform for hosting and deploying Shiny applications, ensuring seamless accessibility and performance for end-users.
+
+Deploying our applications on Shiny.io allowed us to make our recommendation and classification features accessible to a broader audience. This cloud-based deployment ensures that users can access the application from various devices and locations.
+
+```{r}
+# Deploying the application
+rsconnect::setAccountInfo(name='greenexpectationsteam5_Home',
+                          token='AE74A3531C1221CA84FDDCD02*******',
+                          secret='s2/itzAtgkwvsDXfJHlr/93z9VzF+GtVu*******')
+
+library(rsconnect)
+rsconnect::deployApp('C:/Users/vamsh/OneDrive/Documents/1.1 Project/GreenExpectationsSustainabilityApp')
+```
+
+## Final Result:
+
+Link to the application: https://greenexpectationsteam5.shinyapps.io/greenexpectationssustainabilityapp/
+[Click Here to access the shiny application](https://greenexpectationsteam5.shinyapps.io/greenexpectationssustainabilityapp/)
+[Github Repository](https://github.com/VamshiSaini1/Advanced_R_Project)
+
+## Summary: 
+Throughout our project, we developed a comprehensive sustainability-focused application using AI, addressing data challenges with innovative sourcing and structuring. We implemented a decision tree-based recommendation system and a logistic regression classification model, allowing users to classify their homes by selecting relevant categories. Deployed on Shiny.io, our application offers broad accessibility and scalability. However, while we've achieved an end-to-end solution, there's potential for improved classification efficiency and advanced model utilization. Due to time constraints and data availability limitations, we couldn't explore these areas fully, but we're eager to delve deeper in the future.
+
+
